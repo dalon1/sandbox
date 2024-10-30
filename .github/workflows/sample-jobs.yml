@@ -2,6 +2,10 @@
 
 name: Sample Workflow
 
+permissions:
+  id-token: write
+  attestations: write
+
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
@@ -50,3 +54,21 @@ jobs:
         env:
           hi: ${{ format('Hello, {0}!', matrix.user) }}
         run: echo $hi
+
+      - name: Run a one-line script
+        env:
+          hi: ${{ format('Hello, {0}!', matrix.user) }}
+        run: echo "${hi}" > artifact_${{ github.job }}.txt
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+    # Artifact name
+          name: ${{ format('build-{0}', matrix.user)
+    # A file, directory or wildcard pattern that describes what to upload
+          path: |
+            artifact_${{ github.job }}.txt
+      - uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: artifact_${{ github.job }}.txt
+    
