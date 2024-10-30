@@ -58,7 +58,7 @@ jobs:
       - name: Run a one-line script
         env:
           hi: ${{ format('Hello, {0}!', matrix.user) }}
-        run: echo "${hi}" > artifact_${{ github.job }}.txt
+        run: echo "${hi}" > artifact_${{ matrix.user }}.txt
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4
@@ -68,5 +68,5 @@ jobs:
             artifact_${{ github.job }}.txt
       - uses: actions/attest-build-provenance@v1
         with:
-          subject-path: artifact_${{ github.job }}.txt
+          subject-path: artifact_${{ matrix.user }}.txt
     
