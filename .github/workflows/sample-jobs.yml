@@ -63,9 +63,7 @@ jobs:
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4
         with:
-    # Artifact name
-          name: ${{ format('build-{0}', matrix.user)
-    # A file, directory or wildcard pattern that describes what to upload
+          name: ${{ format('build-{0}', matrix.user) }}
           path: |
             artifact_${{ github.job }}.txt
       - uses: actions/attest-build-provenance@v1
