@@ -42,6 +42,8 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    env:
+      ARTIFACT_FILE: ${{ format('artifact_{0}_{1}.txt', matrix.user, github.run_id) }}
     needs: init
     strategy:
       matrix:
@@ -58,15 +60,15 @@ jobs:
       - name: Run a one-line script
         env:
           hi: ${{ format('Hello, {0}!', matrix.user) }}
-        run: echo "${hi}" > artifact_${{ matrix.user }}.txt
+        run: echo "${hi}" > ${{ env.ARTIFACT_FILE }}
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ format('build-{0}', matrix.user) }}
           path: |
-            artifact_${{ github.job }}.txt
+            ${{ env.ARTIFACT_FILE }}
       - uses: actions/attest-build-provenance@v1
         with:
-          subject-path: artifact_${{ matrix.user }}.txt
+          subject-path: ${{ env.ARTIFACT_FILE }}
     
