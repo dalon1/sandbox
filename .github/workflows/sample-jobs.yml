@@ -50,3 +50,17 @@ jobs:
         env:
           hi: ${{ format('Hello, {0}!', matrix.user) }}
         run: echo $hi
+
+
+
+  mono:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
+      - name: Run action in specific directory
+        working-directory: path/to/your/directory
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
