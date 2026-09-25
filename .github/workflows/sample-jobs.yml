@@ -27,7 +27,19 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: echo Hello, world!
+        run: |
+          echo "MY_ENV=this-is-test" >> $GITHUB_ENV
+      - name: print 1
+        run: echo $MY_ENV
+
+      - name: print 2 - unset
+        env:
+          MY_ENV: ""
+        run: echo $MY_ENV
+
+      - name: print 3 - show again
+        run: echo $MY_ENV
+
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
